@@ -30,19 +30,6 @@
   }
 }
 
-::view-transition-old(root) {
-  animation-name: full-slide-to-left;
-  animation-duration: 900ms;
-  animation-timing-function: ease-out;
-}
-
-::view-transition-new(root) {
-  animation-name: full-slide-from-right;
-  animation-duration: 900ms;
-  animation-timing-function: ease-out;
-}
-
-
 body {
   font-family: 'Inter', sans-serif;
 }
@@ -56,6 +43,7 @@ body {
 
 header {
   background-color: var(--primary-color);
+  view-transition-name: header;
 }
 
 .main-header {
@@ -280,13 +268,6 @@ header {
 
 .hero-text h1 {
   color: var(--primary-color);
-  font-size: 2.25rem; 
-  font-weight: 700;  
-  margin-bottom: 1rem;
-}
-
-.hero-text h2 {
-  color: var(--primary-color);
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
 }
@@ -315,16 +296,6 @@ header {
   box-shadow: 0 2px 5px var(--primary-shadow-color);
 }
 
-.visually-hidden {
-  position: absolute;
-  left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-
 /* Map Section */
 .map-section {
   margin: 2rem 0;
@@ -351,7 +322,7 @@ header {
   padding: 2rem 1rem;
 }
 
-.container h2 {
+.container h1 {
   text-align: center;
   color: var(--primary-color);
   margin-bottom: 1.5rem;
@@ -396,7 +367,7 @@ header {
   padding: 1rem;
 }
 
-.story-info h2 {
+.story-info h1 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   color: var(--primary-color);
@@ -610,7 +581,6 @@ header {
 }
 
 /* ABOUT */
-/* ABOUT SECTION */
 .about {
   background-color: var(--secondary-color);
   border-radius: 12px;
@@ -621,56 +591,24 @@ header {
   color: var(--secondary-text-color);
 }
 
-/* Judul utama halaman */
 .about h1 {
   color: var(--primary-color);
-  font-size: 1.75rem;
-  font-weight: 700;
-  text-align: left;
+  font-size: 2rem;
   margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  position: relative;
 }
 
-.about h1::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 3px;
-  background-color: var(--primary-color);
-  margin-top: 0.5rem;
-  border-radius: 2px;
-}
-
-/* Subjudul */
 .about h2 {
   color: var(--primary-color);
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.4rem;
-  position: relative;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
-.about h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 2px;
-  background-color: var(--primary-color);
-  margin-top: 0.3rem;
-  border-radius: 1px;
-}
-
-/* Paragraf */
 .about p {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
-/* List */
 .about ul {
   padding-left: 1.5rem;
   list-style: disc;
@@ -681,7 +619,6 @@ header {
   margin-bottom: 0.5rem;
 }
 
-/* Optional notification box */
 .about .notification-info {
   background-color: var(--secondary-light-color);
   border-left: 4px solid var(--primary-color);
@@ -695,7 +632,6 @@ header {
   margin-bottom: 0.5rem;
 }
 
-/* Inline code styling */
 .about code {
   background-color: #eee;
   padding: 0.2rem 0.4rem;
@@ -728,8 +664,6 @@ header {
   transition: opacity 300ms ease, transform 300ms ease;
 }
 
-
-    
 
 /* FOOTER */
 footer {
@@ -768,6 +702,13 @@ footer {
   text-align: center;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
 
 @media screen and (min-width: 1000px) {
   .navigation-drawer {
@@ -803,3 +744,51 @@ footer {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-30px);
+  }
+}
+@keyframes slide-from-right {
+  from {
+    transform: translateX(30px);
+  }
+}
+ 
+@media screen and (width > 600px) {
+  ::view-transition-old(root) {
+    animation:
+      fade-out 90ms cubic-bezier(0.4, 0, 1, 1) both,
+      slide-to-left 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  ::view-transition-new(root) {
+    animation:
+      fade-in 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both,
+      slide-from-right 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+}
+
+
+@media screen and (max-width: 600px) {
+  ::view-transition-old(root) {
+    animation-name: full-slide-to-left;
+    animation-duration: 900ms;
+    animation-timing-function: ease-out;
+  }
+  ::view-transition-new(root) {
+    animation-name: full-slide-from-right;
+    animation-duration: 900ms;
+    animation-timing-function: ease-out;
+  }
+}
